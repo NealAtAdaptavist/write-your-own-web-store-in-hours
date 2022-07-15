@@ -8,12 +8,12 @@ const BuyNowButton = async () => {
 
   if (isLoading) return <></>;
 
-  if (isAuthenticated) return <button onClick={buy}>Buy Now</button>;
-
-  const access_token = await getAccessTokenSilently();
-
-  console.log(access_token)
-
+  if (isAuthenticated) {
+    const access_token = await getAccessTokenSilently();
+    console.log(access_token)
+    return <button onClick={buy}>Buy Now</button>;
+  }
+  
   return <button onClick={loginWithPopup}>Log In To Purchase</button>;
 };
 
