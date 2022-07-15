@@ -5,6 +5,8 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Auth0Provider } from "@auth0/auth0-react";
 
+let miro = window.miro
+
 async function init() {
   // Listen for a click on your app icon and open /app when clicked
   miro.board.ui.on('icon:click', async () => {
