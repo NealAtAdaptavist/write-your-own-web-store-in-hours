@@ -1,37 +1,70 @@
-# Write Your Own Web Store In Hours
+# Getting Started with Create React App
 
-![Cover Image for the Write Your Own Web Store In Hours project](workshop-assets/readme-images/write-your-own-web-store-in-hours-cover-image.png)
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-This project is the basis of [Ben Dechrai](https://bendechrai.com/)'s workshop by the same name.
+## Available Scripts
 
-By the end of this workshop, you will have created a React-based Single Page Application that allows customers to log in using Auth0, and can list and purchase a number of products based on the product catalogue defined in your Stripe account.
+In the project directory, you can run:
 
-## :technologist: Prerequisites
+### `yarn start`
 
-In order to get the most from this workshop, you will
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-- be comfortable using VS Code as a development environment
-- have a moderate understanding of JavaScript
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
-## 🗝 Key
+### `yarn test`
 
-| Symbol(s) | Description                                                                                                                                              |
-| :-------: | :------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  👉💻👈   | Skip past the descriptions and explanations, and just get straight to the action items. Each action that you need to take is prefixed with these symbols |
-|    💡     | Helpful hints or things you might want to pay attention to                                                                                               |
-|    🎉     | Milestone - do something here to verify you're in track                                                                                                  |
-|    🧪     | Checkpoint - an optional time for you to do a test to see your progress                                                                                  |
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-## :book: Workshop Steps
+### `yarn build`
 
-0. [Pre-Workshop Setup](STEP-0-PRE-WORKSHOP.md)
-1. [Setting up your development environment](STEP-1-DEVELOPMENT-ENVIRONMENT.md)
-2. [Create a new React Project](STEP-2-NEW-REACT-PROJECT.md)
-3. [Defining products in Stripe](STEP-3-DEFINING-PRODUCTS-IN-STRIPE.md)
-4. [Retrieving products from the Stripe API](STEP-4-RETRIEVE-PRODUCTS.md)
-5. [Displaying products in React](STEP-5-DISPLAY-PRODUCTS.md)
-6. [Authenticating users](STEP-6-AUTHENTICATING-USERS.md)
-7. [Connecting Auth0 to Stripe](STEP-7-CONNECTING-AUTH0-TO-STRIPE.md)
-8. [Augmenting Access Tokens](STEP-8-AUGMENTING-THE-ACCESS-TOKENSTARTING-A-STRIPE-CHECKOUT.md)
-9. [Starting a Stripe Checkout](STEP-9-START-CHECKOUT.md)
-10. [Complete! Testing the site...](STEP-A-COMPLETION.md)
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
+
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
+
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `yarn eject`
+
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `yarn build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
