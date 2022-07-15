@@ -11,7 +11,7 @@ async function init() {
   // Listen for a click on your app icon and open /app when clicked
   miro.board.ui.on('icon:click', async () => {
     await miro.board.ui.openModal({
-      url: 'index.html',
+      url: '/',
       width: 800,
       height: 600,
       fullscreen: false,
