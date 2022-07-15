@@ -2,15 +2,15 @@ import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const BuyNowButton = async () => {
-  const { isLoading, isAuthenticated, loginWithPopup, getAccessTokenSilently} = useAuth0();
+  const { isLoading, isAuthenticated, loginWithPopup} = useAuth0();
 
   const buy = () => {};
 
   if (isLoading) return <></>;
 
   if (isAuthenticated) {
-    const access_token = await getAccessTokenSilently();
-    console.log(access_token)
+    // const access_token = await getAccessTokenSilently();
+    // console.log(access_token)
     return <button onClick={buy}>Buy Now</button>;
   }
   
