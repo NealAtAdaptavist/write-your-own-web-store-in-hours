@@ -39,8 +39,6 @@ const getToken = async (getAccessTokenSilently) => {
 const BuyNowButton = () => {
   const { isLoading, isAuthenticated, loginWithPopup, getAccessTokenSilently} = useAuth0();
 
-  const buy = () => {};
-
   if (isLoading) return <></>;
 
   if (isAuthenticated) {    
