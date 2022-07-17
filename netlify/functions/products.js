@@ -7,13 +7,22 @@ const verifyJwt = NetlifyJwtVerifier({
   audience: process.env.AUTH0_AUDIENCE,
 });
 exports.handler = verifyJwt(async function (event, context) {
-   
   // Decode the payload
   const payload = JSON.parse(event.body);
-
+  payload.context = context.clientContext
   const connection = mysql.createConnection(process.env.DATABASE_URL);
   console.log('Connected to PlanetScale!');
-  connection.end();
+  let userSub = payload.context.user.sub
+  let subParts = userSub.split("|")
+  if (payload.boardInfo.id && payload.userInfo.id) {
+    let boardQuery = `INSERT IGNORE into tenant (auth_sub, auth_provider, auth_sub_id, board_id, user_id) VALUES ("${userSub}","${subParts[0]}","${subParts[1]}", "${payload.boardInfo.id}", "${payload.userInfo.id}")`
+    console.log(boardQuery)
+    connection.query(boardQuery, function (err, result, fields) {
+      if (err) throw err;
+      console.log(result);      
+    });
+  }
+    connection.end();
 
   return {
     statusCode: 200,

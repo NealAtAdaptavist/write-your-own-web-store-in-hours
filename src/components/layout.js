@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Layout = ({ children }) => {
@@ -8,14 +7,9 @@ const Layout = ({ children }) => {
   return (
     <>
       <header>
-        <h1>My Web Store</h1>
         <nav>
+        <img src="https://cdn.freebiesupply.com/logos/thumbs/2x/auth0-logo.png" alt="Logo" width="50px"/>             
           <ul>
-            <li>
-              <Link className="menuitem" to="/">
-                Home
-              </Link>
-            </li>
             {!isLoading && isAuthenticated && (
               <li>
                 <button className="menuitem" onClick={logout}>
