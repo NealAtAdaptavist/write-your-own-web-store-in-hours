@@ -3,7 +3,25 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 const getToken = async (getAccessTokenSilently) => {
   const access_token = await getAccessTokenSilently();
-  console.log(access_token)
+  console.log(`Access Token: ${access_token}`)
+    fetch("/.netlify/functions/products", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${access_token}`
+      },
+      body: JSON.stringify({
+        source: window.location,
+        
+      }),
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        // The response is a checkout session object,
+        // which has a `url` attribute which we simply
+        // redirect the user to
+        // window.location.assign(json.url);
+        console.log(json)
+      });
 }
 
 const BuyNowButton = () => {
@@ -14,7 +32,9 @@ const BuyNowButton = () => {
   if (isLoading) return <></>;
 
   if (isAuthenticated) {
+    console.log("Getting Access Token")
     getToken(getAccessTokenSilently)
+    
     return <button onClick={buy}>Buy Now</button>;
   }
   
