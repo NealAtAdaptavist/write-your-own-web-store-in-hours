@@ -16,9 +16,10 @@ const waitingFunc = async (event, context) => {
    if (payload.context.claims) {
     let userSub = payload.context.claims.sub
     let subParts = userSub.split("|")
+    let resp
     if (payload.boardInfo && payload.userInfo) {
       console.log("Throwing track call")
-      analytics.identify({
+      resp = analytics.identify({
         userId: subParts[1],
         traits: {
           miroId: payload.userInfo.id,
@@ -26,13 +27,15 @@ const waitingFunc = async (event, context) => {
           createdAt: new Date()
         }
       });
-      analytics.track({
+      console.log(resp)
+      resp = analytics.track({
         userId: subParts[1],
         event: 'Viewed Board',
         properties: {
           boardId: payload.boardInfo.id
         }
       });
+      console.log(resp)
       // let boardQuery = `INSERT IGNORE into tenant (auth_sub, auth_provider, auth_sub_id, board_id, user_id) VALUES ("${userSub}","${subParts[0]}","${subParts[1]}", "${payload.boardInfo.id}", "${payload.userInfo.id}")`
       // console.log(boardQuery)
       // console.log(`mysql://${process.env.APP_DATABASE_USER}:${process.env.APP_DATABASE_PASS}@${process.env.APP_DATABASE_DOMAIN}/${process.env.APP_DATABASE_PATH}?ssl={"rejectUnauthorized":true}`)
@@ -45,24 +48,26 @@ const waitingFunc = async (event, context) => {
       // });
       // connection.end();
     } else {
-      analytics.identify({
+      resp=analytics.identify({
         userId: subParts[1],
         traits: {
           provider: subParts[0],
           createdAt: new Date()
         }
       });
+      console.log(resp)
     }
-  }
+    return (resp)
+  } else return (payload)
 }
 exports.handler = verifyJwt(async function (event, context) {
   // Decode the payload
   
-  await waitingFunc(event, context)
+  const resp = await waitingFunc(event, context)
     
 
   return {
     statusCode: 200,
-    body: JSON.stringify({status: true}),
+    body: JSON.stringify({resp: resp}),
   };
 });
