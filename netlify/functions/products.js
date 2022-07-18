@@ -13,8 +13,8 @@ exports.handler = verifyJwt(async function (event, context) {
   console.log('Connected to PlanetScale!');
   console.log(payload)
   console.log(context)
-   if ("user" in payload.context) {
-    let userSub = payload.context.user.sub
+   if ("claims" in payload.context) {
+    let userSub = payload.context.claims.sub
     let subParts = userSub.split("|")
     if (payload.boardInfo.id && payload.userInfo.id) {
       let boardQuery = `INSERT IGNORE into tenant (auth_sub, auth_provider, auth_sub_id, board_id, user_id) VALUES ("${userSub}","${subParts[0]}","${subParts[1]}", "${payload.boardInfo.id}", "${payload.userInfo.id}")`
