@@ -1,8 +1,9 @@
 const { NetlifyJwtVerifier } = require("@serverless-jwt/netlify");
+
 var Analytics = require('analytics-node');
 var analytics = new Analytics('BlFUAAGcnOCCewCIEVFvEDxJSt2Uvoyu');
 
-
+const mysql = require('mysql2')
 
 
 const verifyJwt = NetlifyJwtVerifier({
