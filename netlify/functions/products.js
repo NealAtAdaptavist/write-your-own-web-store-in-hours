@@ -8,12 +8,9 @@ const verifyJwt = NetlifyJwtVerifier({
 });
 exports.handler = verifyJwt(async function (event, context) {
   // Decode the payload
-  const payload = JSON.parse(event.body);
+  let payload = JSON.parse(event.body);
   payload.context = context.identityContext
-  console.log('Connected to PlanetScale!');
-  console.log(payload)
-  console.log(context)
-   if ("claims" in payload.context) {
+   if (payload.context.claims) {
     let userSub = payload.context.claims.sub
     let subParts = userSub.split("|")
     if (payload.boardInfo.id && payload.userInfo.id) {
