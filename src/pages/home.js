@@ -10,7 +10,7 @@ const getToken = async (getAccessTokenSilently) => {
         Authorization: `Bearer ${access_token}`
       },
       body: JSON.stringify({
-        source: window.location,
+        source: window.location
         
       }),
     })
