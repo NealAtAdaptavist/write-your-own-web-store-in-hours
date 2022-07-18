@@ -22,9 +22,9 @@ exports.handler = verifyJwt(async function (event, context) {
       const connection = mysql.createConnection(`${process.env.APP_DATABASE_URL}?ssl={"rejectUnauthorized":true}`);
       connection.query(boardQuery, function (err, result, fields) {
         if (err) throw err;
-        console.log(result);   
-        connection.end();   
+        console.log(result);      
       });
+      connection.end();
     }
   }
   
