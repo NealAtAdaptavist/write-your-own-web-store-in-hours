@@ -10,7 +10,7 @@ exports.handler = verifyJwt(async function (event, context) {
   // Decode the payload
   const payload = JSON.parse(event.body);
   payload.context = context.identityContext
-  // const connection = mysql.createConnection(`${process.env.APP_DATABASE_URL}?ssl={"rejectUnauthorized":true}`);
+  const connection = mysql.createConnection(`${process.env.APP_DATABASE_URL}?ssl={"rejectUnauthorized":true}`);
   console.log('Connected to PlanetScale!');
   console.log(payload)
   console.log(context)
