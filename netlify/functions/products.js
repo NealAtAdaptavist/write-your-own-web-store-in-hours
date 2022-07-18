@@ -1,6 +1,6 @@
 const { NetlifyJwtVerifier } = require("@serverless-jwt/netlify");
 var Analytics = require('analytics-node');
-var analytics = new Analytics(BlFUAAGcnOCCewCIEVFvEDxJSt2Uvoyu);
+var analytics = new Analytics('BlFUAAGcnOCCewCIEVFvEDxJSt2Uvoyu');
 
 
 
