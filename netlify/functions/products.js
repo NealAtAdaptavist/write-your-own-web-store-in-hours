@@ -9,8 +9,8 @@ const verifyJwt = NetlifyJwtVerifier({
   issuer: process.env.AUTH0_ISSUER,
   audience: process.env.AUTH0_AUDIENCE,
 });
-exports.handler = verifyJwt(async function (event, context) {
-  // Decode the payload
+
+const waitingFunc = async (event, conttext) => {
   let payload = JSON.parse(event.body);
   payload.context = context.identityContext
    if (payload.context.claims) {
@@ -54,7 +54,11 @@ exports.handler = verifyJwt(async function (event, context) {
       });
     }
   }
+}
+exports.handler = verifyJwt(async function (event, context) {
+  // Decode the payload
   
+  await waitingFunc(event, context)
     
 
   return {
