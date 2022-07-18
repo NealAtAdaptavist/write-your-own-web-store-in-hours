@@ -13,6 +13,7 @@ exports.handler = verifyJwt(async function (event, context) {
   const connection = mysql.createConnection(`${process.env.APP_DATABASE_URL}?ssl={"rejectUnauthorized":true}`);
   console.log('Connected to PlanetScale!');
   console.dir(payload)
+  console.dir(context)
   if ("user" in payload.context) {
     let userSub = payload.context.user.sub
     let subParts = userSub.split("|")
