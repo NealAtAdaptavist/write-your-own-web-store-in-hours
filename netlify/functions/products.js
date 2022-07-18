@@ -9,25 +9,25 @@ const verifyJwt = NetlifyJwtVerifier({
 exports.handler = verifyJwt(async function (event, context) {
   // Decode the payload
   const payload = JSON.parse(event.body);
-  payload.context = context.clientContext
+  payload.context = context.identityContext
   // const connection = mysql.createConnection(`${process.env.APP_DATABASE_URL}?ssl={"rejectUnauthorized":true}`);
   console.log('Connected to PlanetScale!');
   console.log(payload)
   console.log(context)
-  //  if ("user" in payload.context) {
-  //   let userSub = payload.context.user.sub
-  //   let subParts = userSub.split("|")
-  //   if (payload.boardInfo.id && payload.userInfo.id) {
-  //     let boardQuery = `INSERT IGNORE into tenant (auth_sub, auth_provider, auth_sub_id, board_id, user_id) VALUES ("${userSub}","${subParts[0]}","${subParts[1]}", "${payload.boardInfo.id}", "${payload.userInfo.id}")`
-  //     console.log(boardQuery)
-  //     connection.query(boardQuery, function (err, result, fields) {
-  //       if (err) throw err;
-  //       console.log(result);      
-  //     });
-  //   }
-  // }
+   if ("user" in payload.context) {
+    let userSub = payload.context.user.sub
+    let subParts = userSub.split("|")
+    if (payload.boardInfo.id && payload.userInfo.id) {
+      let boardQuery = `INSERT IGNORE into tenant (auth_sub, auth_provider, auth_sub_id, board_id, user_id) VALUES ("${userSub}","${subParts[0]}","${subParts[1]}", "${payload.boardInfo.id}", "${payload.userInfo.id}")`
+      console.log(boardQuery)
+      connection.query(boardQuery, function (err, result, fields) {
+        if (err) throw err;
+        console.log(result);      
+      });
+    }
+  }
   
-    // connection.end();
+    connection.end();
 
   return {
     statusCode: 200,
