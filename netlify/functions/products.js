@@ -13,10 +13,10 @@ const verifyJwt = NetlifyJwtVerifier({
 const waitingFunc = async (event, context) => {
   let payload = JSON.parse(event.body);
   payload.context = context.identityContext
+  let resp
    if (payload.context.claims) {
     let userSub = payload.context.claims.sub
     let subParts = userSub.split("|")
-    let resp
     if (payload.boardInfo && payload.userInfo) {
       console.log("Throwing track call")
       resp = analytics.identify({
@@ -57,8 +57,8 @@ const waitingFunc = async (event, context) => {
       });
       console.log(resp)
     }
-    return (resp)
-  } else return (payload)
+  }
+  return (resp)
 }
 exports.handler = verifyJwt(async function (event, context) {
   // Decode the payload
