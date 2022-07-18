@@ -10,7 +10,6 @@ exports.handler = verifyJwt(async function (event, context) {
   // Decode the payload
   const payload = JSON.parse(event.body);
   payload.context = context.identityContext
-  const connection = mysql.createConnection(`${process.env.APP_DATABASE_URL}?ssl={"rejectUnauthorized":true}`);
   console.log('Connected to PlanetScale!');
   console.log(payload)
   console.log(context)
@@ -20,14 +19,16 @@ exports.handler = verifyJwt(async function (event, context) {
     if (payload.boardInfo.id && payload.userInfo.id) {
       let boardQuery = `INSERT IGNORE into tenant (auth_sub, auth_provider, auth_sub_id, board_id, user_id) VALUES ("${userSub}","${subParts[0]}","${subParts[1]}", "${payload.boardInfo.id}", "${payload.userInfo.id}")`
       console.log(boardQuery)
+      const connection = mysql.createConnection(`${process.env.APP_DATABASE_URL}?ssl={"rejectUnauthorized":true}`);
       connection.query(boardQuery, function (err, result, fields) {
         if (err) throw err;
-        console.log(result);      
+        console.log(result);   
+        connection.end();   
       });
     }
   }
   
-    connection.end();
+    
 
   return {
     statusCode: 200,
