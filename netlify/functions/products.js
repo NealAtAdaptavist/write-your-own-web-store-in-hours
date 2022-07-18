@@ -68,6 +68,6 @@ exports.handler = verifyJwt(async function (event, context) {
 
   return {
     statusCode: 200,
-    body: JSON.stringify({resp: resp}),
+    body: JSON.stringify({resp: resp.writeKey}),
   };
 });
