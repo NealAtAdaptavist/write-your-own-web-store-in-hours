@@ -6,6 +6,7 @@ import Home from "./pages/home";
 import Success from "./pages/success";
 
 import "./App.css";
+import MiroHome from "./pages";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Routes>
           <Route path="/success" element={<Success />} />
           <Route path="/app" element={<Home />} />
+          <Route path="/app" element={<MiroHome />} />
         </Routes>
       </Layout>
     </BrowserRouter>
