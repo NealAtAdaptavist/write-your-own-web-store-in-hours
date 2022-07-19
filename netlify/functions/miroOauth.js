@@ -159,7 +159,6 @@ const oauthFunction = async (event, context, client) => {
       }
     }
     grabToken();
-    return({"success" : true})
   }
   // // ---> #2:
   // // ---> If no authorization code is present, redirect to Miro OAuth to authorize retrieve new `code`.
