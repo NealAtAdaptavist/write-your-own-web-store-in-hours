@@ -7,3 +7,53 @@
  type Query {
     allTenant: [Tenant!]!
  }
+
+
+
+ Map(
+  Paginate(
+    Match(Index("people_search_by_first"), "Alan")
+  ),
+  Lambda(
+    "person",
+    Get(Var("person"))
+  )
+)
+
+let resp = await client.query(
+      q.Map(
+         q.Paginate(
+            q.Match(Index("unique-authsub"),|||||)
+         ),
+         q.Lambda(
+            "authSub",
+            q.Get(Var("authSub"))
+         )
+      )
+   )
+
+
+let resp = await client.query(
+        q.Create(
+          q.Collection('tenant'),
+          { data: { 
+            authSub: userSub,
+            miroUser : payload.userInfo,
+            boardInfo : payload.boardInfo,
+            ts : new Date()
+          } }
+        )
+      )
+
+
+
+q.Update(
+            q.Ref(q.Collection('tenant'), q.Match(q.Index("unique-authsub"), userSub)),
+            { data: { 
+                    authSub: userSub,
+                    miroUser : payload.userInfo,
+                    boardInfo : payload.boardInfo,
+                    ts : new Date()
+                  } 
+              },
+          ))

@@ -1,5 +1,4 @@
 const { NetlifyJwtVerifier } = require("@serverless-jwt/netlify");
-
 var faunadb = require('faunadb')
 var q = faunadb.query
 
@@ -17,24 +16,39 @@ const waitingFunc = async (event, context, client) => {
     let subParts = userSub.split("|")
     if (payload.boardInfo && payload.userInfo) {      
       let resp = await client.query(
-        q.Create(
-          q.Collection('tenant'),
-          { data: { 
-            authSub: userSub,
-            miroUser : payload.userInfo,
-            boardInfo : payload.boardInfo
-          } }
+        q.Map(
+          q.Paginate(
+            q.Match(q.Index("search-by-auth-sub"), userSub)
+          ), 
+          q.Lambda(x => q.Get(x))
+          )
         )
-      )
-      .then((ret) => {
-        console.log(ret)
-      }
-      )
+      .then(async (ret) => {
+        console.log(`Found the following: ${JSON.stringify(ret)}`)
+        
+        if (ret.data.length > 0) {
+          console.log("Found an object, time to update!")
+          let resp = await client.query(
+            q.Update(
+              q.Ref(q.Collection('tenant'),ret.data[0].ref.id),
+              { 
+                data: 
+                  { 
+                    authSub: userSub,
+                    miroUser : payload.userInfo,
+                    boardInfo : payload.boardInfo,
+                    ts : new Date()
+                  } 
+              },
+            )
+            )
+        }
+        return ret
+      })
       .catch((err) => {
         return { error: err.errors()[0].description}
       })
-      console.log(resp)
-      return resp
+      return resp   
     } else {
       return {er: 'no user found'}
     }
@@ -68,6 +82,7 @@ exports.handler = verifyJwt( async function (event, context) {
     domain: 'db.us.fauna.com'
   })
   const resp = await waitingFunc(event, context, client)
+  console.log(resp)
   return {
     statusCode: 200, 
     body: JSON.stringify({resp: resp})
