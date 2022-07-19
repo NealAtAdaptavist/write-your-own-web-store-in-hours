@@ -1,5 +1,6 @@
 const { NetlifyJwtVerifier } = require("@serverless-jwt/netlify");
 
+// Starting
 var Analytics = require('analytics-node');
 var analytics = new Analytics('BlFUAAGcnOCCewCIEVFvEDxJSt2Uvoyu', { flushAt: 1 });
 
@@ -37,17 +38,17 @@ const waitingFunc = async (event, context) => {
         }
       });
       console.log(resp)
-      let boardQuery = `INSERT IGNORE into tenant (auth_sub, auth_provider, auth_sub_id, board_id, user_id) VALUES ("${userSub}","${subParts[0]}","${subParts[1]}", "${payload.boardInfo.id}", "${payload.userInfo.id}")`
-      console.log(boardQuery)
-      console.log(`mysql://${process.env.APP_DATABASE_USER}:${process.env.APP_DATABASE_PASS}@${process.env.APP_DATABASE_DOMAIN}/${process.env.APP_DATABASE_PATH}?ssl={"rejectUnauthorized":true}`)
-      const connection = await mysql.createConnection(`mysql://${process.env.APP_DATABASE_USER}:${process.env.APP_DATABASE_PASS}@${process.env.APP_DATABASE_DOMAIN}/${process.env.APP_DATABASE_PATH}?ssl={"rejectUnauthorized":true}`);
-      connection.query(boardQuery, function (err, result) {
-        if (err) {
-          console.warn(err)
-        }
-        else console.log(result);      
-      });
-      connection.end();
+      // let boardQuery = `INSERT IGNORE into tenant (auth_sub, auth_provider, auth_sub_id, board_id, user_id) VALUES ("${userSub}","${subParts[0]}","${subParts[1]}", "${payload.boardInfo.id}", "${payload.userInfo.id}")`
+      // console.log(boardQuery)
+      // console.log(`mysql://${process.env.APP_DATABASE_USER}:${process.env.APP_DATABASE_PASS}@${process.env.APP_DATABASE_DOMAIN}/${process.env.APP_DATABASE_PATH}?ssl={"rejectUnauthorized":true}`)
+      // const connection = await mysql.createConnection(`mysql://${process.env.APP_DATABASE_USER}:${process.env.APP_DATABASE_PASS}@${process.env.APP_DATABASE_DOMAIN}/${process.env.APP_DATABASE_PATH}?ssl={"rejectUnauthorized":true}`);
+      // connection.query(boardQuery, function (err, result) {
+      //   if (err) {
+      //     console.warn(err)
+      //   }
+      //   else console.log(result);      
+      // });
+      // connection.end();
     } else {
       resp=analytics.identify({
         userId: subParts[1],
