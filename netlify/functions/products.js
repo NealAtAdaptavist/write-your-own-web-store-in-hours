@@ -11,7 +11,7 @@ const verifyJwt = NetlifyJwtVerifier({
   audience: process.env.AUTH0_AUDIENCE,
 });
 
-const waitingFunc = async (event, context) => {
+const waitingFunc = (event, context) => {
   let payload = JSON.parse(event.body);
   payload.context = context.identityContext
   let resp
@@ -61,10 +61,10 @@ const waitingFunc = async (event, context) => {
   }
   return (resp)
 }
-exports.handler = verifyJwt(async function (event, context) {
+exports.handler = verifyJwt( function (event, context) {
   // Decode the payload
   
-  const resp = await waitingFunc(event, context)
+  const resp = waitingFunc(event, context)
     
 
   return {
