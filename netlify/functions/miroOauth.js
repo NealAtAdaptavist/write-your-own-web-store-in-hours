@@ -72,9 +72,9 @@ const oauthFunction = async (event, context, client) => {
                       ts : new Date()
                     } 
                 },
-              )
-            )
-            return resp
+              )              
+            )  
+            return resp          
           } else {
             let resp = await client.query(
               q.Create(
@@ -86,30 +86,16 @@ const oauthFunction = async (event, context, client) => {
                 } }
               )
             )
-          }
-          return ret
+            return resp
+          }          
         })
         .catch((err) => {
           return { error: err.errors()[0].description}
-        })
+        })       
 
-        return resp   
-
-      } else {
+      } else {        
         return {er: 'no user found'}      
-      }  
-      
-      let resp = await client.query(
-        q.Create(
-          q.Collection('miro-tenant'),
-          { data: { 
-            authSub: userSub,
-            miroAccessToken: access_token,
-            ts : new Date()
-          } }
-        )
-      )
-      return resp
+      }        
   
         
   //       // Specify Miro API request URL
