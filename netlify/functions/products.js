@@ -67,9 +67,6 @@ const waitingFunc = async (event, context) => {
 exports.handler = verifyJwt( async function (event, context) {
   // Decode the payload
   const resp = await waitingFunc(event, context)
-  return {
-    statusCode: 200,
-    body: resp,
-  };
+  return resp;
 
 });
