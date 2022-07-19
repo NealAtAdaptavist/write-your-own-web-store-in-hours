@@ -2,19 +2,26 @@ const { NetlifyJwtVerifier } = require("@serverless-jwt/netlify");
 var faunadb = require('faunadb')
 var q = faunadb.query
 
+// Load the Auth0 issuer and audience from ENV
 const verifyJwt = NetlifyJwtVerifier({
   issuer: process.env.AUTH0_ISSUER,
   audience: process.env.AUTH0_AUDIENCE,
 });
 
-const waitingFunc = async (event, context, client) => {
+// Upsert users data in Fauna
+// Stores against the AUTH0 identity - 
+// the last updated user and board context seen
+
+const upsertUserCollection = async (event, context, client) => {  
+  // Get the identity context from the event body
   let payload = JSON.parse(event.body);
-  console.log(payload)
   payload.context = context.identityContext
-   if (payload.context.claims) {
+  // Look for the claims param and pull the sub value
+  if (payload.context.claims) {
     let userSub = payload.context.claims.sub
-    let subParts = userSub.split("|")
-    if (payload.boardInfo && payload.userInfo) {      
+    // If we are in a miro iframe
+    if (payload.boardInfo && payload.userInfo) {  
+      // Search for the current auth sub
       let resp = await client.query(
         q.Map(
           q.Paginate(
@@ -24,10 +31,9 @@ const waitingFunc = async (event, context, client) => {
           )
         )
       .then(async (ret) => {
-        console.log(`Found the following: ${JSON.stringify(ret)}`)
-        
+        // If there is already a sub that exists
         if (ret.data.length > 0) {
-          console.log("Found an object, time to update!")
+          // Update against the first user found
           let resp = await client.query(
             q.Update(
               q.Ref(q.Collection('tenant'),ret.data[0].ref.id),
@@ -41,7 +47,8 @@ const waitingFunc = async (event, context, client) => {
                   } 
               },
             )
-            )
+          )
+          return resp
         }
         return ret
       })
@@ -76,12 +83,12 @@ const waitingFunc = async (event, context, client) => {
 // }
 
 exports.handler = verifyJwt( async function (event, context) {
-  // Decode the payload
+  // Create Fauna Client
   var client = new faunadb.Client({
     secret: process.env.FAUNA_KEY,
     domain: 'db.us.fauna.com'
   })
-  const resp = await waitingFunc(event, context, client)
+  const resp = await upsertUserCollection(event, context, client)
   console.log(resp)
   return {
     statusCode: 200, 
