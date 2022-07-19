@@ -21,25 +21,16 @@ const waitingFunc = async (event, context) => {
       connection.query(boardQuery, function (err, result) {
         if (err) {
           console.warn(err)
-          return {
-            statusCode: 403,
-            body: JSON.stringify({er: err}),
-          };
+          return {er: err};
         }
         else {
           console.log(result); 
-          return {
-            statusCode: 403,
-            body: JSON.stringify({result: result}),
-          };
+          return  {result: result}
         }     
       });
       connection.end();
     } else {
-      return {
-        statusCode: 200,
-        body: JSON.stringify({er: 'no user found'}),
-      };
+      return {er: 'no user found'}
     }
   }
 }
@@ -67,6 +58,9 @@ const waitingFunc = async (event, context) => {
 exports.handler = verifyJwt( async function (event, context) {
   // Decode the payload
   const resp = await waitingFunc(event, context)
-  return resp;
+  return {
+    status: 200, 
+    body: JSON.stringify(resp)
+  };
 
 });
