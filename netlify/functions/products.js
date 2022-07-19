@@ -2,8 +2,7 @@ const { NetlifyJwtVerifier } = require("@serverless-jwt/netlify");
 
 // Starting
 var Analytics = require('analytics-node');
-var analytics = new Analytics('BlFUAAGcnOCCewCIEVFvEDxJSt2Uvoyu', { flushAt: 1 });
-analytics.flushed = true
+
 
 
 const verifyJwt = NetlifyJwtVerifier({
@@ -88,10 +87,30 @@ const boringFunction = async (event, context) => {
   return {succes: butseriously}
 };
 
+async function lambda()
+{
+  const WRITE_KEY = 'BlFUAAGcnOCCewCIEVFvEDxJSt2Uvoyu'
+  const analytics = new Analytics(WRITE_KEY, { flushAt: 20 });
+  analytics.flushed = true;
+  
+  analytics.track({
+    anonymousId: randomUUID(),
+    event: 'Test event',
+    properties: {
+      name: 'Test event',
+      timestamp: new Date()
+    }
+  });
+  await analytics.flush(function(err, batch) {
+    console.log('Flushed, and now this program can exit!');
+    return ({in: 'here'})
+  });
+}
+
 // exports.handler = verifyJwt( async function (event, context) {
   // Decode the payload
   exports.handler =  async function (event, context) {
-  const resp = await boringFunction(event, context)
+  const resp = await lambda()
   return {
     statusCode: 200,
     body: JSON.stringify({resp: resp, ts: new Date()}),
