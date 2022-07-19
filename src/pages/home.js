@@ -5,7 +5,7 @@ async function init() {
   // Listen for a click on your app icon and open /app when clicked
   window.miro.board.ui.on('icon:click', async () => {
     await window.miro.board.ui.openModal({
-      url: '/miro',
+      url: '/app',
       width: 800,
       height: 600,
       fullscreen: false,
