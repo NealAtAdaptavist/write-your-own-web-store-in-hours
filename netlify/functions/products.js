@@ -3,8 +3,7 @@ const { NetlifyJwtVerifier } = require("@serverless-jwt/netlify");
 // Starting
 var Analytics = require('analytics-node');
 var analytics = new Analytics('BlFUAAGcnOCCewCIEVFvEDxJSt2Uvoyu', { flushAt: 1 });
-
-const mysql = require('mysql2')
+analytics.flushed = true
 
 
 const verifyJwt = NetlifyJwtVerifier({
@@ -69,7 +68,7 @@ const waitingFunc = async (event, context) => {
 }
 
 
-exports.handler = verifyJwt( async function (event, context) {
+exports.handler = await verifyJwt( async function (event, context) {
   // Decode the payload
 
   const resp = await waitingFunc(event, context)
