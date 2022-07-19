@@ -40,7 +40,7 @@ const getToken = async (getAccessTokenSilently) => {
 }
 
 const BuyNowButton = () => {
-  const { isLoading, isAuthenticated, loginWithPopup, getAccessTokenSilently} = useAuth0();
+  const { isLoading, isAuthenticated, getAccessTokenSilently} = useAuth0();
 
   if (isLoading) return <></>;
 
@@ -50,30 +50,19 @@ const BuyNowButton = () => {
       <div>You're logged in!</div>
     </>
   }
-  
-  return <>
-    <div>
-      To get started, log in with your Salable account.
-    </div>
-    <div>
-      <button onClick={loginWithPopup}>Sign in Salable</button>
-    </div>
-    
-  </>
+  window.location.assign("/app")
+  return true
 };
 
 const Home = () => {  
 
   useEffect(() => {
     console.log("Loaded Salable App")
+    BuyNowButton()
   }, []);
 
   return (
     <>
-      <h1>Auth0 Demo</h1>      
-      <div>
-      {BuyNowButton()}
-      </div>
     </>
   );
 };
