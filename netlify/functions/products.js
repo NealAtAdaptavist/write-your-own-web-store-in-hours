@@ -81,11 +81,11 @@ const boringFunction = async (event, context) => {
       createdAt: new Date()
     }
   });
-  await analytics.flush(function(err) {
+  const butseriously = await analytics.flush(function(err) {
     console.log('Flushed, and now this program can exit!')
     if (err) return({err: err})
   })
-  return {succes: true}
+  return {succes: butseriously}
 };
 
 // exports.handler = verifyJwt( async function (event, context) {
