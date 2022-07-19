@@ -1,7 +1,7 @@
 const { NetlifyJwtVerifier } = require("@serverless-jwt/netlify");
 
 var Analytics = require('analytics-node');
-var analytics = new Analytics('BlFUAAGcnOCCewCIEVFvEDxJSt2Uvoyu');
+var analytics = new Analytics('BlFUAAGcnOCCewCIEVFvEDxJSt2Uvoyu', { flushAt: 1 });
 
 const mysql = require('mysql2')
 
@@ -11,7 +11,7 @@ const verifyJwt = NetlifyJwtVerifier({
   audience: process.env.AUTH0_AUDIENCE,
 });
 
-const waitingFunc = (event, context) => {
+const waitingFunc = async (event, context) => {
   let payload = JSON.parse(event.body);
   payload.context = context.identityContext
   let resp
@@ -61,10 +61,10 @@ const waitingFunc = (event, context) => {
   }
   return (resp)
 }
-exports.handler = verifyJwt( function (event, context) {
+exports.handler = verifyJwt( async function (event, context) {
   // Decode the payload
   
-  const resp = waitingFunc(event, context)
+  const resp = await waitingFunc(event, context)
     
 
   return {
