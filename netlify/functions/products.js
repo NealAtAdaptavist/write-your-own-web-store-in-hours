@@ -67,9 +67,8 @@ const waitingFunc = async (event, context) => {
 }
 
 
-// exports.handler = verifyJwt( async function (event, context) {
+exports.handler = verifyJwt( async function (event, context) {
   // Decode the payload
-  exports.handler = async function (event, context) {
 
   const resp = await waitingFunc(event, context)
     
@@ -79,4 +78,4 @@ const waitingFunc = async (event, context) => {
     body: JSON.stringify({resp: resp.writeKey}),
   };
 
-// });
+});
