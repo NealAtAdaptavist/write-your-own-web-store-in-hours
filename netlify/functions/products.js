@@ -94,7 +94,7 @@ async function lambda()
   analytics.flushed = true;
   
   analytics.track({
-    anonymousId: randomUUID(),
+    anonymousId: '1111111',
     event: 'Test event',
     properties: {
       name: 'Test event',
