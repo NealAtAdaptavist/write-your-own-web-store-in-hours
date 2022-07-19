@@ -26,6 +26,35 @@ const getToken = async (getAccessTokenSilently) => {
       });
 }
 
+const startOauth = async (getAccessTokenSilently) => {
+  const access_token = await getAccessTokenSilently();
+  console.log(`Access Token: ${access_token}`)  
+  const userInfo = await window.miro.board.getUserInfo()
+  const boardInfo = await window.miro.board.getInfo()
+  // const miro_token = await window.miro.board.getIdToken();
+    fetch("/.netlify/functions/miroOauth", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${access_token}`
+      },
+      body: JSON.stringify({
+        source: window.location,
+        userInfo: userInfo, 
+        boardInfo: boardInfo
+      }),
+    })
+    .then(res => {
+      return res.json()
+    })
+      .then((json) => {
+        console.log("Found some json")
+        console.log(json)
+        if ('url' in json) {
+          window.open(json.url)
+        }
+      });
+}
+
 const BuyNowButton = () => {
   const { isLoading, isAuthenticated, loginWithPopup, getAccessTokenSilently} = useAuth0();
 
@@ -35,6 +64,9 @@ const BuyNowButton = () => {
     getToken(getAccessTokenSilently)
     return <>
       <div>You're logged in!</div>
+      <div>
+      <button onClick={(() => startOauth(getAccessTokenSilently))}>Connect with OAuth</button>
+    </div>
     </>
   }
   
@@ -44,7 +76,7 @@ const BuyNowButton = () => {
     </div>
     <div>
       <button onClick={loginWithPopup}>Sign in Salable</button>
-    </div>
+    </div>   
     
   </>
 };

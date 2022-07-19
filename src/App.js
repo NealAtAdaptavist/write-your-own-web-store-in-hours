@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Layout from "./components/layout";
 import Home from "./pages/home";
-import Success from "./pages/success";
+import OauthRedirect from "./pages/oauth";
 
 import "./App.css";
 import MiroHome from "./pages";
@@ -13,7 +13,7 @@ const App = () => {
     <BrowserRouter>
       <Layout>
         <Routes>
-          <Route path="/success" element={<Success />} />
+          <Route path="/oauth" element={<OauthRedirect />} />
           <Route path="/" element={<Home />} />
           <Route path="/app" element={<MiroHome />} />
         </Routes>
