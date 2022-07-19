@@ -1,6 +1,19 @@
 import React, {useEffect} from "react";
 import { useAuth0 } from "@auth0/auth0-react"; 
 
+async function init() {
+  // Listen for a click on your app icon and open /app when clicked
+  window.miro.board.ui.on('icon:click', async () => {
+    await window.miro.board.ui.openModal({
+      url: '/',
+      width: 800,
+      height: 600,
+      fullscreen: false,
+    });
+  });
+}
+init();
+
 const getToken = async (getAccessTokenSilently) => {
   const access_token = await getAccessTokenSilently();
   console.log(`Access Token: ${access_token}`)  

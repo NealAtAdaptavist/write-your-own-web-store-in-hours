@@ -5,7 +5,7 @@ async function init() {
   // Listen for a click on your app icon and open /app when clicked
   window.miro.board.ui.on('icon:click', async () => {
     await window.miro.board.ui.openModal({
-      url: '/app',
+      url: '/',
       width: 800,
       height: 600,
       fullscreen: false,
@@ -13,6 +13,7 @@ async function init() {
   });
 }
 init();
+
 const getToken = async (getAccessTokenSilently) => {
   const access_token = await getAccessTokenSilently();
   console.log(`Access Token: ${access_token}`)  
@@ -39,29 +40,42 @@ const getToken = async (getAccessTokenSilently) => {
 }
 
 const BuyNowButton = () => {
-  const { isLoading, isAuthenticated, getAccessTokenSilently} = useAuth0();
+  const { isLoading, isAuthenticated, loginWithPopup, getAccessTokenSilently} = useAuth0();
 
   if (isLoading) return <></>;
 
   if (isAuthenticated) {    
     getToken(getAccessTokenSilently)
+    return <>
+      <div>You're logged in!</div>
+    </>
   }
   
-  return <>    
+  return <>
+    <div>
+      To get started, log in with your Salable account.
+    </div>
+    <div>
+      <button onClick={loginWithPopup}>Sign in Salable</button>
+    </div>
+    
   </>
 };
 
-const MiroHome = () => {  
+const Home = () => {  
 
   useEffect(() => {
-    init();
+    console.log("Loaded Salable App")
   }, []);
 
   return (
-    <>           
-      {BuyNowButton()}      
+    <>
+      <h1>Auth0 Demo</h1>      
+      <div>
+      {BuyNowButton()}
+      </div>
     </>
   );
 };
 
-export default MiroHome;
+export default Home;

@@ -14,7 +14,7 @@ const App = () => {
       <Layout>
         <Routes>
           <Route path="/success" element={<Success />} />
-          <Route path="/app" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/app" element={<MiroHome />} />
         </Routes>
       </Layout>
