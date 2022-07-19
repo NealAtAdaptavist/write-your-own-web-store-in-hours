@@ -29,10 +29,9 @@ const getToken = async (getAccessTokenSilently) => {
         userInfo: userInfo, 
         boardInfo: boardInfo
       }),
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        console.log(json)
+    })      
+      .then((res) => {
+        console.log(res)
       });
 }
 
