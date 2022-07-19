@@ -83,8 +83,9 @@ const boringFunction = async (event, context) => {
   });
   await analytics.flush(function(err) {
     console.log('Flushed, and now this program can exit!')
-    if (err) console.log(err)
+    if (err) return({err: err})
   })
+  return {succes: true}
 };
 
 // exports.handler = verifyJwt( async function (event, context) {
