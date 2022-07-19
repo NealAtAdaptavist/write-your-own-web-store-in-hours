@@ -59,11 +59,18 @@ const waitingFunc = async (event, context) => {
       console.log(resp)
     }
   }
+
+  await analytics.flush(function(err, batch) {
+    console.log('Flushed, and now this program can exit!');
+  });
   return (resp)
 }
-exports.handler = verifyJwt( async function (event, context) {
+
+
+// exports.handler = verifyJwt( async function (event, context) {
   // Decode the payload
-  
+  exports.handler = async function (event, context) {
+
   const resp = await waitingFunc(event, context)
     
 
@@ -71,4 +78,5 @@ exports.handler = verifyJwt( async function (event, context) {
     statusCode: 200,
     body: JSON.stringify({resp: resp.writeKey}),
   };
-});
+
+// });
