@@ -1,0 +1,9 @@
+ type Tenant {
+    authSub: String!
+    miroUserId: String!
+    miroBoardId: String!
+ }
+
+ type Query {
+    allTenant: [Tenant!]!
+ }

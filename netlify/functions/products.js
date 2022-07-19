@@ -1,34 +1,40 @@
 const { NetlifyJwtVerifier } = require("@serverless-jwt/netlify");
 
-const mysql = require('mysql2')
+var faunadb = require('faunadb')
+var q = faunadb.query
 
 const verifyJwt = NetlifyJwtVerifier({
   issuer: process.env.AUTH0_ISSUER,
   audience: process.env.AUTH0_AUDIENCE,
 });
 
-const waitingFunc = async (event, context) => {
+const waitingFunc = async (event, context, client) => {
   let payload = JSON.parse(event.body);
+  console.log(payload)
   payload.context = context.identityContext
    if (payload.context.claims) {
     let userSub = payload.context.claims.sub
     let subParts = userSub.split("|")
     if (payload.boardInfo && payload.userInfo) {      
-      let boardQuery = `INSERT IGNORE into tenant (auth_sub, auth_provider, auth_sub_id, board_id, user_id) VALUES ("${userSub}","${subParts[0]}","${subParts[1]}", "${payload.boardInfo.id}", "${payload.userInfo.id}")`
-      console.log(boardQuery)
-      console.log(`mysql://${process.env.APP_DATABASE_USER}:${process.env.APP_DATABASE_PASS}@${process.env.APP_DATABASE_DOMAIN}/${process.env.APP_DATABASE_PATH}?ssl={"rejectUnauthorized":true}`)
-      const connection = mysql.createConnection(`mysql://${process.env.APP_DATABASE_USER}:${process.env.APP_DATABASE_PASS}@${process.env.APP_DATABASE_DOMAIN}/${process.env.APP_DATABASE_PATH}?ssl={"rejectUnauthorized":true}`);
-      connection.query(boardQuery, function (err, result) {
-        if (err) {
-          console.warn(err)
-          return {er: err};
-        }
-        else {
-          console.log(result); 
-          return  {result: result}
-        }     
-      });
-      connection.end();
+      let resp = await client.query(
+        q.Create(
+          q.Collection('tenant'),
+          { data: { 
+            authSub: userSub,
+            miroUser : payload.userInfo,
+            boardInfo : payload.boardInfo
+          } }
+        )
+      )
+      .then((ret) => {
+        console.log(ret)
+      }
+      )
+      .catch((err) => {
+        return { error: err.errors()[0].description}
+      })
+      console.log(resp)
+      return resp
     } else {
       return {er: 'no user found'}
     }
@@ -57,10 +63,14 @@ const waitingFunc = async (event, context) => {
 
 exports.handler = verifyJwt( async function (event, context) {
   // Decode the payload
-  const resp = await waitingFunc(event, context)
+  var client = new faunadb.Client({
+    secret: process.env.FAUNA_KEY,
+    domain: 'db.us.fauna.com'
+  })
+  const resp = await waitingFunc(event, context, client)
   return {
-    status: 200, 
-    body: JSON.stringify(resp)
+    statusCode: 200, 
+    body: JSON.stringify({resp: resp})
   };
 
 });

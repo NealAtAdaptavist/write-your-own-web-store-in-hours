@@ -31,6 +31,11 @@ const getToken = async (getAccessTokenSilently) => {
       }),
     })
     .then(res => {
+      try {
+
+      } catch {
+        
+      }
       return res.json()
     })
       .then((json) => {
