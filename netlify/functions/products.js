@@ -1,5 +1,6 @@
 const { NetlifyJwtVerifier } = require("@serverless-jwt/netlify");
 
+const mysql = require('mysql2')
 
 const verifyJwt = NetlifyJwtVerifier({
   issuer: process.env.AUTH0_ISSUER,
