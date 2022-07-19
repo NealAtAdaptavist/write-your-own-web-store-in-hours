@@ -76,6 +76,7 @@ const oauthFunction = async (event, context, client) => {
             )  
             return resp          
           } else {
+            console.log("Nothing exists yet")
             let resp = await client.query(
               q.Create(
                 q.Collection('miro-tenant'),
